@@ -39,7 +39,7 @@ function __oah_install {
 	CANDIDATE="$1"
 	LOCAL_FOLDER="$3"
 
-  # TODO show the below help when required param for install is not passed 
+  # TODO show the below help when required param for install is not passed
 	# oah install [option(-v,-d,-s)] {environment_name} // Install a environment
 	# Options
 	# 	 -v vagrant // will be used for testing and creation of cluster

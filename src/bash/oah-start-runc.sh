@@ -8,20 +8,20 @@ __oah_start_runc ()
   env_base_url=http://github.com/$OAH_NAMESPACE
 
   echo " Starting $oah_env_repo , oah_operation_mode => $oah_operation_mode,"
-  echo "  oah_operation_mode => $oah_operation_mode,"
+  echo " oah_operation_mode => $oah_operation_mode,"
   # TODO do an vagrant up in case of host mode
-  if [$OAH_HOST_TYPE = vagrant ] ; then
-
+  if [$OAH_HOST_TYPE = runc ] ; then
   # continue
- else
-
-  echo "oah start needs can be executed only in host mode of vagrant, docker or kubernetes"
-
+    echo "OAH_HOST_TYPE => $OAH_HOST_TYPE"
+  else
+    echo "oah start needs can be executed only in host mode of vagrant, docker or kubernetes"
+    return
   fi
 
 
+
   # TODO check and run runc
-  if [ "$oah_operation_mode" = "-r" and $OAH_HOST_TYPE = runc]
+  if [ '$oah_operation_mode' = '-r' && '$OAH_HOST_TYPE' = 'runc' ]
     then
     echo "About to start runc :  $env_base_url/$oah_env_repo.git"
     git clone $env_base_url/$oah_env_repo.git

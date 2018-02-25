@@ -1,4 +1,4 @@
-__oah_start_docker ()
+__oah_start_cluster ()
 {
   #TODO check $ARG3 and $ARG2
   #TODO check for $OAH_HOST_TYPE and handle depending on host types of vagrant, docker, kubernetes and standalone
@@ -10,7 +10,7 @@ __oah_start_docker ()
   echo " Starting $oah_env_repo , oah_operation_mode => $oah_operation_mode,"
   echo " oah_operation_mode => $oah_operation_mode,"
   # TODO do an vagrant up in case of host mode
-  if [$OAH_HOST_TYPE = docker ] ; then
+  if [$OAH_HOST_TYPE = 'cluster' ] ; then
   # continue
     echo "OAH_HOST_TYPE => $OAH_HOST_TYPE"
   else
@@ -18,14 +18,12 @@ __oah_start_docker ()
     return
   fi
 
-
-
-  # TODO check and run docker-compose
-  if [ '$oah_operation_mode' = '-d' && $OAH_HOST_TYPE = docker ] ; then
-    echo "About to run docker compose :  $env_base_url/$oah_env_repo.git"
+  # check and run ansible standalone playbook
+  if [ '$oah_operation_mode' = '-c' && '$OAH_HOST_TYPE' = 'cluster' ] ; then
+    echo "About to start playbook in cluster mode:  $env_base_url/$oah_env_repo.git"
     git clone $env_base_url/$oah_env_repo.git
     ansible-galaxy install -r $oah_env_repo/provisioning/requirements.yml
-    ansible-playbook $oah_env_repo/provisioning/oah-docker-install.yml -K
+    ansible-playbook $oah_env_repo/provisioning/oah-cluster-install.yml -K
   fi
 
 

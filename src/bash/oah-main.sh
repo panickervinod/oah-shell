@@ -16,11 +16,12 @@ function oah {
               else
                 COMMAND="list"
               fi
+              ;;
           h)
-              COMMAND="help";;
+             COMMAND="help";;
 
           v)
-              COMMAND="version";;
+             COMMAND="version";;
 
           install)
                 # COMMAND="install"
