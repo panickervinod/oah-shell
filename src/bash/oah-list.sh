@@ -1,5 +1,5 @@
 #!/bin/bash
-
+# TODO deprecate and remove this file after oah-list-available & oah-list-installed are available
 # TODO Review and refactor the code below
 # function __oah_list {
 # 	CANDIDATE="$1"
@@ -17,8 +17,10 @@
 # }
 
 function  __oah_list {
+  # Set list as default list with no options
   echo "Select a OAH environment from this list :"
   OAH_CANDIDATES_CSV=$(curl -s "${OAH_ENVS_INFO_SERVICE}" | grep -v ^# )
+
   OAH_CANDIDATES=(${OAH_CANDIDATES_CSV})
   #IFS="$OLD_IFS"
   for (( i=0; i <= ${#OAH_CANDIDATES}; i++ )); do
@@ -28,11 +30,11 @@ function  __oah_list {
       cut_field=$(echo  "$CANDIDATE_NAME" |grep -o ,| wc -l)
       if [ "${cut_field}" -eq 0 ];
       then
-        Env_name=$(echo "$CANDIDATE_NAME")
+        env_name=$(echo "$CANDIDATE_NAME")
         Version_name="master"
       else
         cut_field_1=$[cut_field + 1]
-        Env_name=$(echo  "$CANDIDATE_NAME" |cut -f1 -d',')
+        env_name=$(echo  "$CANDIDATE_NAME" |cut -f1 -d',')
         Version_name_old=$(echo  "$CANDIDATE_NAME" |cut -f2-$cut_field_1 -d',')
         # Version_name=$(echo "$Version_name_old*")
         version_cut_field=$(echo  "$Version_name_old" |grep -o ,| wc -l)
@@ -50,12 +52,12 @@ function  __oah_list {
         fi
       fi
       current_env=$(oah show current)
-      Version_new=$(echo "$current_env" | grep -w "$Env_name")
+      Version_new=$(echo "$current_env" | grep -w "$env_name")
       if [[ -n "${Version_new}" ]];
       then
-        Env_name=$(echo ">$Version_new")
+        env_name=$(echo ">$Version_new")
       fi
-      echo "$Env_name [$Version_name]"
+      echo "$env_name [$Version_name]"
       unset CANDIDATE_NAME
     fi
   done

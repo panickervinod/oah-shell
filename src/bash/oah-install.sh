@@ -38,6 +38,16 @@ function __oah_validate_zip {
 function __oah_install {
 	CANDIDATE="$1"
 	LOCAL_FOLDER="$3"
+
+  # TODO show the below help when required param for install is not passed 
+	# oah install [option(-v,-d,-s)] {environment_name} // Install a environment
+	# Options
+	# 	 -v vagrant // will be used for testing and creation of cluster
+	# 	 -s standalone machine // will make use of localhost as inventory
+	# 	 -d docker // will make use of localhost as inventory
+	# Example : To Install Drupal8  on a Windows host with vagrant and Virtualbox:
+	# oah install -v oah-drupal8-vm
+
 	__oah_check_candidate_present "${CANDIDATE}" || return 1
 	__oah_determine_version "$2" "$3" || return 1
 

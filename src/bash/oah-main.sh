@@ -9,8 +9,13 @@ function oah {
       case "$COMMAND" in
 
           list)
-              COMMAND="list";;
-
+              if [[ "$OPTION1" = "-a" ]]; then
+                COMMAND="list-available"
+              elif [[ "$OPTION1" = "-i" ]]; then
+                COMMAND="list-installed"
+              else
+                COMMAND="list"
+              fi
           h)
               COMMAND="help";;
 
@@ -18,19 +23,58 @@ function oah {
               COMMAND="version";;
 
           install)
-  #            COMMAND="install"
-              if [[ "$OPTION1" = "-s" ]]
-                then
-                COMMAND="install-env"
+                # COMMAND="install"
+                if [[ "$OPTION1" = "-s" ]]; then
+                  COMMAND="install-env"
+                elif [[ "$OPTION1" = "-v" ]]; then
+                  COMMAND="install-vagrant"
+                elif [[ "$OPTION1" = "-d" ]]; then
+                  COMMAND="install-docker"
+                elif [[ "$OPTION1" = "-h" ]]; then
+                  COMMAND="install-helm"
+                elif [[ "$OPTION1" = "-r" ]]; then
+                  COMMAND="install-runc"
+                elif [[ "$OPTION1" = "-c" ]]; then
+                  COMMAND="install-cluster"
+                else
+                  COMMAND="install"
+                fi
+                ;;
+
+          start)
+              if [[ "$OPTION1" = "-s" ]]; then
+                COMMAND="start-standalone"
               elif [[ "$OPTION1" = "-v" ]]; then
-                COMMAND="install-vagrant"
+                COMMAND="start-vagrant"
               elif [[ "$OPTION1" = "-d" ]]; then
-                COMMAND="install-docker"
+                COMMAND="start-docker"
+              elif [[ "$OPTION1" = "-c" ]]; then
+                COMMAND="start-cluster"
+              elif [[ "$OPTION1" = "-k" ]]; then
+                COMMAND="start-kubernetes"
+              elif [[ "$OPTION1" = "-h" ]]; then
+                COMMAND="start-helm"
+              else
+                COMMAND="start"
               fi
               ;;
 
-          start)
-              COMMAND="start";;
+          halt)
+              # halt current environment
+              if [[ "$OPTION1" = "-v" ]]; then
+                COMMAND="halt-vagrant"
+              elif [[ "$OPTION1" = "-d" ]]; then
+                COMMAND="halt-docker"
+              elif [[ "$OPTION1" = "-r" ]]; then
+                COMMAND="halt-runc"
+              elif [[ "$OPTION1" = "-h" ]]; then
+                COMMAND="halt-helm"
+              elif [[ "$OPTION1" = "-c" ]]; then
+                COMMAND="halt-cluster"
+              else
+                COMMAND="halt"
+              fi
+              ;;
 
           status)
               COMMAND="status";;
@@ -41,17 +85,21 @@ function oah {
           remove)
               COMMAND="remove";;
 
+          destroy)
+              COMMAND="destroy";;
+
+          use)
+              COMMAND="use";;
+
           show)
-          if [[ -z "$OPTION1" ]]; then
-            COMMAND="show"
-          elif [[ -n "$OPTION1" && "$OPTION1" = "current" ]]
-          then
-            COMMAND="show-current"
-          else
-            echo "Error: Command not found"
-            COMMAND="help"
-          fi
-            ;;
+              if [[ -z "$OPTION1" ]]; then
+                COMMAND="show"
+              elif [[ -n "$OPTION1" && "$OPTION1" = "current" ]]; then
+                COMMAND="show-current"
+              else
+                COMMAND="help"
+              fi
+              ;;
 
       esac
 

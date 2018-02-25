@@ -5,7 +5,7 @@ function __oah_use()
        if [[ -z $1 ]]
        then
 				 echo "Error :Please provide the environment name from oah env list"
-				 ove help
+				 oah help
 			 else
         environment_name=$1
         if [[ "$environment_name" = "$(oah list | grep $environment_name | cut -d " " -f 1 | sed 's/>//')" ]]

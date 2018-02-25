@@ -1,6 +1,9 @@
 #!/bin/bash
 
 function __oah_halt {
+	# TODO check $OAH_HOST_TYPE
+  # TODO handle docker ,runc & kubernetes HOST Types
+
 	vagrant halt
 	if [ $? -eq 1 ]
 	then
@@ -10,4 +13,5 @@ function __oah_halt {
 	echo "#                                                                                                         #"
 	echo "###########################################################################################################"
 	fi
+
 }
